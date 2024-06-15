@@ -1,228 +1,233 @@
-{% extends "base.html" %}
-{% block styles %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/resume_styles.css') }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
-{% endblock %}
-{% block content %}
-<div class="container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/resume_styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+    <title>Callan Roff</title>
+</head>
+<body>
+    <div class="container">
 
-    <div class="left-side">
+        <div class="left-side">
 
-        <!-- Profile image and name/job title -->
-        <div class="profile">
-            <div class="profile-image">
-                <img src="{{ url_for('static', filename='images/cal6.png') }}" class="cal-roff-image">
+            <!-- Profile image and name/job title -->
+            <div class="profile">
+                <div class="profile-image">
+                    <img src="{{ url_for('static', filename='images/cal6.png') }}" class="cal-roff-image">
+                </div>
+                <h2>
+                    Cal Roff
+                    <br>
+                    <span class="pronoun">(He/Him)</span>
+                    <br>
+                    <span>Data Analyst</span>
+                </h2>
             </div>
-            <h2>
-                Cal Roff
-                <br>
-                <span class="pronoun">(He/Him)</span>
-                <br>
-                <span>Data Analyst</span>
-            </h2>
+
+            <!-- Contact information -->
+            <div class="contact-info">
+                <h3 class="contact-info-title">Contact Information</h3>
+                <ul>
+                    <li>
+                        <span class="icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
+                        <span class="text">+61 481132823</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+                        <span class="text">callanroff@gmail.com</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class="fa fa-globe" aria-hidden="true"></i></span>
+                        <span class="text">www.callanroff.com</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class="fa fa-linkedin" aria-hidden="true"></i></span>
+                        <span class="text">https://www.linkedin.com/in/callan-roff-4a8bb4184/</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+                        <span class="text">Melbourne, VIC, Australia</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class="devicon-github-original"></i></span>
+                        <span class="text">https://github.com/callanroff123</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Education -->
+            <div class="contact-info education">
+                <h3 class="contact-info-title">Education</h3>
+                <ul>
+                    <li>
+                        <h5>2020 - 2022</h5>
+                        <h4>MSc, Statistics</h4>
+                        <h4>University of New South Wales</h4>
+                    </li>
+                    <li>
+                        <h5>2017 - 2020</h5>
+                        <h4>BSc, Mathematics</h4>
+                        <h4>University of New England</h4>
+                    </li>
+                </ul>
+            </div>
+
         </div>
 
-        <!-- Contact information -->
-        <div class="contact-info">
-            <h3 class="contact-info-title">Contact Information</h3>
-            <ul>
-                <li>
-                    <span class="icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
-                    <span class="text">+61 481132823</span>
-                </li>
-                <li>
-                    <span class="icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
-                    <span class="text">callanroff@gmail.com</span>
-                </li>
-                <li>
-                    <span class="icon"><i class="fa fa-globe" aria-hidden="true"></i></span>
-                    <span class="text">www.callanroff.com</span>
-                </li>
-                <li>
-                    <span class="icon"><i class="fa fa-linkedin" aria-hidden="true"></i></span>
-                    <span class="text">https://www.linkedin.com/in/callan-roff-4a8bb4184/</span>
-                </li>
-                <li>
-                    <span class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
-                    <span class="text">Melbourne, VIC, Australia</span>
-                </li>
-                <li>
-                    <span class="icon"><i class="devicon-github-original"></i></span>
-                    <span class="text">https://github.com/callanroff123</span>
-                </li>
-            </ul>
-        </div>
+        <div class="right-side">
 
-        <!-- Education -->
-        <div class="contact-info education">
-            <h3 class="contact-info-title">Education</h3>
-            <ul>
-                <li>
-                    <h5>2020 - 2022</h5>
-                    <h4>MSc, Statistics</h4>
-                    <h4>University of New South Wales</h4>
-                </li>
-                <li>
-                    <h5>2017 - 2020</h5>
-                    <h4>BSc, Mathematics</h4>
-                    <h4>University of New England</h4>
-                </li>
-            </ul>
+            <!-- Professional summary -->
+            <div class="about">
+                <h2 class="about-title">Summary</h2>
+                <p>
+                    Data Analyst with 2.5+ years experience in the retail sector with a strong math background and passion for problem solving. Committed to helping organisations deliver measurable value and reach new heights by identifying key patterns in big, complex data.
+                </p>
+            </div>
+
+            <!-- Experience -->
+            <div class="about">
+                <h2 class="about-title">Experience</h2>
+                <div class="company-box">
+                    <div class="year-company">
+                        <h5>Jul 2023 - Present</h5>
+                        <h5>Kmart Group, AU</h5>
+                    </div>
+                    <div class="text">
+                        <h4>Operations Data Analyst</h4>
+                        <p>
+                            <ul>
+                                <li>Developed algorithms to measure and pin-point root casues for low inventory accuracy using RFID data. These proved to be important features in an ML model aimed to facilitate accurate inventory adjustments, resulting in a 5% uplift in inventory accuracy and +$24M incremental sales benefit.</li>
+                                <li>Built an automated email alerting tool based on these metrics to assist operations support teams in resolving stores' issues related to inventory accuracy.</li>
+                                <li>Developed algortihms to track all back-of-house to shop floor replenishments and measure on-shelf availability.</li>
+                                <li>Lead a project aimed at validating opportunities and enhancements to the digital replenishment process, providing all analytical support. In particular, built a model to estimate sales uplift, at $15M, and a prototype for product-wise prioritised replenishment.</li>
+                                <li>Developed an algorithm to measure manifest accuracy using RFID data, providing previously unseen insights surrounding supplier short shipment and incorrect product tagging.</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+                <div class="company-box">
+                    <div class="year-company">
+                        <h5>Feb 2022 - Jul 2023</h5>
+                        <h5>Kmart Group, AU</h5>
+                    </div>
+                    <div class="text">
+                        <h4>Data Scientist (Graduate)</h4>
+                        <p>
+                            <ul>
+                                <li>Developed and deployed the use of new performance metrics across store operations using RFID data. This was one of the first use cases in which data could be leveraged to track a stores compliance to common tasks.</li>
+                                <li>Built a predictive time-series model for customer service desk labour. Net opportunity as a result of optimising efficiency in this area exceeded $4M.</li>
+                                <li>Worked alongside the Shrink and Fraud Prevention teams to track stock anomalies, and developed an ML model to predict loss at yearly stocktake.</li>
+                                <li>Maintained and deployed a recommendation engine to assist apparel merchants in which ranges to keep/remove each season based on product substitution.</li>
+                                <li>Performed extensive A/B testing across various campaigns and large-scale changes across the business. Predominant area was in customer behavior, which also involved product association rule analysis.</li>
+                                <li>Built networks and gave presentations to a wide-range of stakeholders across the operational, planning and merchandising side of the business.</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills -->
+            <div class="about">
+                <h2 class="about-title">Skills</h2>
+                <div class="skills">
+                    <div class="general-skills">
+                        <h4>General</h4>
+                        <ul>
+                            <li>
+                                <span class="icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
+                                <span class="text">Retail Operations</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></span>
+                                <span class="text">Problem Solving</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="fa fa-users" aria-hidden="true"></i></span>
+                                <span class="text">Stakeholder Management</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                                <span class="text">Communication</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="fa fa-cogs" aria-hidden="true"></i></span>
+                                <span class="text">Machine Learning</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="fa fa-line-chart" aria-hidden="true"></i></span>
+                                <span class="text">Business Analytics</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="fa fa-cloud" aria-hidden="true"></i></span>
+                                <span class="text">Cloud Computing</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="fa fa-database" aria-hidden="true"></i></span>
+                                <span class="text">Relational Databases</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="fa fa-spinner" aria-hidden="true"></i></span>
+                                <span class="text">Extract, Transform, Load (ETL)</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="fa fa-book" aria-hidden="true"></i></span>
+                                <span class="text">Documentation</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tech-skills">
+                        <h4>Tech.</h4>
+                        <ul>
+                            <li>
+                                <span class="icon"><i class="devicon-python-plain"></i></span>
+                                <span class="text">Python</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="devicon-r-plain"></i></span>
+                                <span class="text">R</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="devicon-azuresqldatabase-plain"></i></span>
+                                <span class="text">SQL (Postgres, MySQL)</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="devicon-git-plain"></i></span>
+                                <span class="text">Version Control</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="fa fa-snowflake-o" aria-hidden="true"></i></span>
+                                <span class="text">Snowflake</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="devicon-amazonwebservices-plain-wordmark"></i></span>
+                                <span class="text">AWS</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="fa fa-windows" aria-hidden="true"></i></span>
+                                <span class="text">Microsoft Office Suite (PowerBI, Excel, Powerpoint)</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="devicon-flask-original"></i></span>
+                                <span class="text">Flask</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="devicon-html5-plain"></i></span>
+                                <span class="text">HTML</span>
+                            </li>
+                            <li>
+                                <span class="icon"><i class="devicon-css3-plain"></i></span>
+                                <span class="text">CSS</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>
-
-    <div class="right-side">
-
-        <!-- Professional summary -->
-        <div class="about">
-            <h2 class="about-title">Summary</h2>
-            <p>
-                Data Analyst with 2.5+ years experience in the retail sector with a strong math background and passion for problem solving. Committed to helping organisations deliver measurable value and reach new heights by identifying key patterns in big, complex data.
-            </p>
-        </div>
-
-        <!-- Experience -->
-        <div class="about">
-            <h2 class="about-title">Experience</h2>
-            <div class="company-box">
-                <div class="year-company">
-                    <h5>Jul 2023 - Present</h5>
-                    <h5>Kmart Group, AU</h5>
-                </div>
-                <div class="text">
-                    <h4>Operations Data Analyst</h4>
-                    <p>
-                        <ul>
-                            <li>Developed algorithms to measure and pin-point root casues for low inventory accuracy using RFID data. These proved to be important features in an ML model aimed to facilitate accurate inventory adjustments, resulting in a 5% uplift in inventory accuracy and +$24M incremental sales benefit.</li>
-                            <li>Built an automated email alerting tool based on these metrics to assist operations support teams in resolving stores' issues related to inventory accuracy.</li>
-                            <li>Developed algortihms to track all back-of-house to shop floor replenishments and measure on-shelf availability.</li>
-                            <li>Lead a project aimed at validating opportunities and enhancements to the digital replenishment process, providing all analytical support. In particular, built a model to estimate sales uplift, at $15M, and a prototype for product-wise prioritised replenishment.</li>
-                            <li>Developed an algorithm to measure manifest accuracy using RFID data, providing previously unseen insights surrounding supplier short shipment and incorrect product tagging.</li>
-                        </ul>
-                    </p>
-                </div>
-            </div>
-            <div class="company-box">
-                <div class="year-company">
-                    <h5>Feb 2022 - Jul 2023</h5>
-                    <h5>Kmart Group, AU</h5>
-                </div>
-                <div class="text">
-                    <h4>Data Scientist (Graduate)</h4>
-                    <p>
-                        <ul>
-                            <li>Developed and deployed the use of new performance metrics across store operations using RFID data. This was one of the first use cases in which data could be leveraged to track a stores compliance to common tasks.</li>
-                            <li>Built a predictive time-series model for customer service desk labour. Net opportunity as a result of optimising efficiency in this area exceeded $4M.</li>
-                            <li>Worked alongside the Shrink and Fraud Prevention teams to track stock anomalies, and developed an ML model to predict loss at yearly stocktake.</li>
-                            <li>Maintained and deployed a recommendation engine to assist apparel merchants in which ranges to keep/remove each season based on product substitution.</li>
-                            <li>Performed extensive A/B testing across various campaigns and large-scale changes across the business. Predominant area was in customer behavior, which also involved product association rule analysis.</li>
-                            <li>Built networks and gave presentations to a wide-range of stakeholders across the operational, planning and merchandising side of the business.</li>
-                        </ul>
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Skills -->
-        <div class="about">
-            <h2 class="about-title">Skills</h2>
-            <div class="skills">
-                <div class="general-skills">
-                    <h4>General</h4>
-                    <ul>
-                        <li>
-                            <span class="icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
-                            <span class="text">Retail Operations</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></span>
-                            <span class="text">Problem Solving</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="fa fa-users" aria-hidden="true"></i></span>
-                            <span class="text">Stakeholder Management</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="fa fa-commenting" aria-hidden="true"></i></span>
-                            <span class="text">Communication</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="fa fa-cogs" aria-hidden="true"></i></span>
-                            <span class="text">Machine Learning</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="fa fa-line-chart" aria-hidden="true"></i></span>
-                            <span class="text">Business Analytics</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="fa fa-cloud" aria-hidden="true"></i></span>
-                            <span class="text">Cloud Computing</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="fa fa-database" aria-hidden="true"></i></span>
-                            <span class="text">Relational Databases</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="fa fa-spinner" aria-hidden="true"></i></span>
-                            <span class="text">Extract, Transform, Load (ETL)</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="fa fa-book" aria-hidden="true"></i></span>
-                            <span class="text">Documentation</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="tech-skills">
-                    <h4>Tech.</h4>
-                    <ul>
-                        <li>
-                            <span class="icon"><i class="devicon-python-plain"></i></span>
-                            <span class="text">Python</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="devicon-r-plain"></i></span>
-                            <span class="text">R</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="devicon-azuresqldatabase-plain"></i></span>
-                            <span class="text">SQL (Postgres, MySQL)</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="devicon-git-plain"></i></span>
-                            <span class="text">Version Control</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="fa fa-snowflake-o" aria-hidden="true"></i></span>
-                            <span class="text">Snowflake</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="devicon-amazonwebservices-plain-wordmark"></i></span>
-                            <span class="text">AWS</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="fa fa-windows" aria-hidden="true"></i></span>
-                            <span class="text">Microsoft Office Suite (PowerBI, Excel, Powerpoint)</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="devicon-flask-original"></i></span>
-                            <span class="text">Flask</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="devicon-html5-plain"></i></span>
-                            <span class="text">HTML</span>
-                        </li>
-                        <li>
-                            <span class="icon"><i class="devicon-css3-plain"></i></span>
-                            <span class="text">CSS</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-</div>
-{% endblock %}
+</body>
+</html>

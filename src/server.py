@@ -177,6 +177,7 @@ def add_blog():
         )
         db.session.add(new_blog)
         db.session.commit()
+        return(redirect(url_for("blogs")))
     return(render_template(
         "add_blog.html",
         form = form
