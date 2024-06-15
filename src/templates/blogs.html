@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1>Blogs</h1>
+    <br>
+    {% if n_blogs == 0 %}
+        <p>No blogs to display currently.</p>
+    {% else %}
+        <ul>
+        {% for blog in blogs %}
+            <li><a href="{{ url_for('get_blog',blog_id=blog.id) }}">{{ blog.title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    <a href=" {{ url_for('add_blog') }} " class="btn btn-warning">Add Blog Post</a>
+    <br>
+    <p>
+        <a href="{{ url_for('index') }}">Home Page</a>
+        |
+        <a href="#">Resume</a>
+        |
+        <a href="#">Personal Projects</a>
+        |
+        <a href="#">Contact Me</a>
+    </p>
+{% endblock %}

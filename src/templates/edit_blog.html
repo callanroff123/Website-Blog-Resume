@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from "bootstrap5/form.html" import render_form %}
+{% block content %}
+    <h1>Edit Blog: </h1>
+    <br>
+    {{ render_form(form) }}
+    {{ ckeditor.load() }}
+    {{ ckeditor.config(name="content") }}
+    <br>
+    <p>
+        <a href="{{ url_for('index') }}">Home Page</a>
+        |
+        <a href="#">Resume</a>
+        |
+        <a href="#">Personal Projects</a>
+        |
+        <a href="{{ url_for('blogs') }}">Blogs</a>
+        |
+        <a href="#">Contact Me</a>
+    </p>
+{% endblock %}

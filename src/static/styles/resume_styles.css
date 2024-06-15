@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: rgb(206, 115, 46);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    min-height: 1000px;
+    margin: 50px;
+    background-color: antiquewhite;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.left-side {
+    position: relative;
+    background: rgb(89, 45, 11);
+    padding: 30px;
+}
+
+.profile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 20px;
+}
+
+.profile-image {
+    position: relative;
+}
+
+.cal-roff-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+.profile h2 {
+    color: antiquewhite;
+    font-size: 1.5rem;
+    margin-top: 20px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 600;
+    line-height: 1.5em;
+}
+
+.profile h2 span {
+    font-weight: 300;
+    font-size: 0.8em;
+}
+
+.contact-info {
+    padding-top: 30px;
+}
+
+.contact-info-title {
+    color: antiquewhite;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.contact-info ul {
+    position: relative;
+}
+
+.contact-info ul li {
+    list-style: none;
+    position: relative;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.contact-info ul li .icon {
+    display: inline-block;
+    width: 30px;
+    font-size: 20px;
+    color: rgb(236, 128, 45);
+}
+
+.contact-info ul li .text {
+    font-weight: 300;
+    color: antiquewhite;
+}
+
+.contact-info.education li {
+    margin-bottom: 15px;
+}
+
+.contact-info.education h5 {
+    font-weight: 500;
+    color: rgb(236, 128, 45);
+}
+
+.contact-info.education h4 {
+    font-weight: 300;
+    color: antiquewhite;
+}
+
+.contact-info.education h4:nth-child(2) {
+    font-weight: 500;
+    color: antiquewhite;
+}
+
+.right-side {
+    position: relative;
+    background: antiquewhite;
+    padding: 30px;
+}
+
+.about {
+    margin-bottom: 50px;
+}
+
+.about-title {
+    color: rgb(89, 45, 11);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.about .company-box {
+    display: flex;
+    flex-direction: row;
+    margin: 20px 0;
+}
+
+.about .company-box .year-company {
+    min-width: 150px;
+}
+
+.about .company-box .year-company h5 {
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.about .company-box .text h4 {
+    text-transform: uppercase;
+    font-size: 16px;
+    color: rgb(134, 68, 18);
+    letter-spacing: 0.5px;
+    margin-bottom: 7px;
+}
+
+.skills {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.skills ul li {
+    list-style: none;
+    margin: 10px 0;
+}
+
+.skills h4 {
+    text-transform: uppercase;
+    font-size: 16px;
+    color: rgb(134, 68, 18);
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.skills .icon {
+    margin-right: 10px;
+}
