@@ -33,6 +33,15 @@ class Blog(db.Model):
     img_url: Mapped[str] = mapped_column(String(1000))
 
 
+class Project(db.Model):
+    id: Mapped[int] = mapped_column(Integer, primary_key = True)
+    title: Mapped[str] = mapped_column(String(250), unique = True, nullable = False)
+    description: Mapped[str] = mapped_column(String(250))
+    github: Mapped[str] = mapped_column(String(1000))
+    website: Mapped[str] = mapped_column(String(1000), nullable = True)
+    status: Mapped[str] = mapped_column(String(1000))
+
+
 with app.app_context():
     db.create_all()
 
@@ -65,6 +74,34 @@ class EditBlogForm(FlaskForm):
     )
     img_url = URLField(label = "Blog Image: ")
     submit = SubmitField(label = "Edit Blog Post")
+
+
+class ProjectForm(FlaskForm):
+    title = StringField(
+        label = "Project Title: ",
+        validators = [
+            validators.DataRequired(message = "Please Enter a Project Title")
+        ]
+    )
+    description = StringField(label = "Project Description: ")
+    github = URLField(label = "Project Repo: ")
+    website = URLField(label = "Website URL: ")
+    status = StringField(label = "Project Status: ")
+    submit = SubmitField(label = "Add Project")
+
+
+class EditProjectForm(FlaskForm):
+    title = StringField(
+        label = "Project Title: ",
+        validators = [
+            validators.DataRequired(message = "Please Enter a Project Title")
+        ]
+    )
+    description = StringField(label = "Project Description: ")
+    github = URLField(label = "Project Repo: ")
+    website = URLField(label = "Website URL: ")
+    status = StringField(label = "Project Status: ")
+    submit = SubmitField(label = "Edit Project")
 
 
 @app.route("/")
@@ -110,6 +147,30 @@ def blogs():
         "blogs.html",
         blogs = blogs,
         n_blogs = n_blogs
+    ))
+
+
+@app.route("/projects")
+def projects():
+    with app.app_context():
+        projects = db.session.execute(
+            db.select(Project).order_by((Project.id))
+        ).fetchall()
+        projects = [
+            {
+                "id": row[0].id,
+                "title": row[0].title, 
+                "description": row[0].description, 
+                "github": row[0].github,
+                "website": row[0].website,
+                "status": row[0].status
+            } for row in projects
+        ]
+        n_projects = len(projects)
+    return(render_template(
+        "projects.html",
+        projects = projects,
+        n_projects = n_projects
     ))
 
 
@@ -184,10 +245,77 @@ def add_blog():
     ))
 
 
-@app.route("/bootstrap")
-def bootstrap():
+@app.route("/projects/<int:project_id>")
+def get_project(project_id):
+    with app.app_context():
+        project =  db.session.execute(db.select(Project).where(Project.id==project_id)).scalar()
+        if project == None:
+            return("Project not found :/", 404)
+        else:
+            project = {
+                "id": project.id,
+                "title": project.title, 
+                "description": project.description, 
+                "github": project.github,
+                "website": project.website,
+                "status": project.status
+            }
     return(render_template(
-        "bootstrap_index_template.html"
+        "get_project.html",
+        project = project
+    ))
+
+
+@app.route("/projects/edit", methods = ["GET", "POST"])
+def edit_project():
+    project_id = request.args.get("project_id")
+    form = EditProjectForm()
+    with app.app_context():
+        project =  db.session.execute(db.select(Project).where(Project.id==project_id)).scalar()
+        original_project = project.title
+        if form.validate_on_submit():
+            project.title = form.title.data
+            project.description = form.description.data
+            project.github = form.github.data
+            project.website = form.website.data
+            project.status = form.status.data
+            db.session.commit()
+            return(redirect(url_for("projects")))
+    return(render_template(
+        "edit_project.html",
+        form = form,
+        project_id = project_id,
+        original_project = original_project
+    ))
+
+
+@app.route("/projects/delete", methods = ["GET", "POST"])
+def delete_project():
+    project_id = request.args.get("project_id")
+    with app.app_context():
+        project =  db.session.execute(db.select(Project).where(Project.id==project_id)).scalar()
+        db.session.delete(project)
+        db.session.commit()
+        return(redirect(url_for("projects")))
+
+
+@app.route("/add_project", methods = ["GET", "POST"])
+def add_project():
+    form = ProjectForm()
+    if form.validate_on_submit():
+        new_project = Project(
+            title = form.title.data,
+            description = form.description.data,
+            github = form.github.data,
+            website = form.website.data,
+            status = form.status.data
+        )
+        db.session.add(new_project)
+        db.session.commit()
+        return(redirect(url_for("projects")))
+    return(render_template(
+        "add_project.html",
+        form = form
     ))
         
 

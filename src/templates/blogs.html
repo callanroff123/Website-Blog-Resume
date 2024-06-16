@@ -10,15 +10,14 @@
     <div class="col no-gap">
         <div class="row">
             <div class="col-12 no-gap cover-image-container">
-                <img src="{{ url_for('static', filename='images/blog.png') }}" class="about-image">
+                <img src="{{ url_for('static', filename='images/blogdog2.png') }}" class="about-image">
             </div>
         </div>
         <div class="row">
-            <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark d-flex">
-                <div>
-                    <h1>Blogs</h1>
-                    <br>
-                    <hr width=1000px>
+            <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+                <hr>
+                <br>
+                <div class="articles-list">
                     {% if n_blogs == 0 %}
                         <p>No blogs to display currently.</p>
                     {% else %}
@@ -26,19 +25,23 @@
                             <div class="article">
                                 <a type="button" class="btn btn-dark article-button" href="{{ url_for('get_blog',blog_id=blog.id) }}">
                                     <div class="article-content">
-                                    <p class="article-editor">{{ blog.editor }}</p>
-                                    <h4 class="article-title"><b>{{ blog.title }}</b></h4>
-                                    <p class="article-sub-title"><em>{{ blog.sub_title }}</em></p>
-                                    <p class="article-editor">{{ blog.date }}</p>
+                                        <p>
+                                            <span class="article-editor-image"><img src="{{ url_for('static', filename='images/cal6.png') }}"></span>
+                                            <span class="article-editor">{{ blog.editor }}</span>
+                                        </p>
+                                        <h4 class="article-title"><b>{{ blog.title }}</b></h4>
+                                        <p class="article-sub-title"><em>{{ blog.sub_title }}</em></p>
+                                        <p class="article-editor">{{ blog.date }}</p>
                                     </div>
                                 </a>
-                            </div>
-                            <hr>
+                            </div>       
                         {% endfor %}
                     {% endif %}
-                    <br>
-                    <a href=" {{ url_for('add_blog') }} " class="btn btn-warning">Add Blog Post</a>
                 </div>
+                <br>
+                <hr>
+                <br>
+                <a href=" {{ url_for('add_blog') }} " class="btn btn-warning">Add Blog Post</a>
             </div>
         </div>
     </div>

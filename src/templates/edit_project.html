@@ -5,9 +5,7 @@
 {% endblock %}
 {% block content %}
 {% from "bootstrap5/form.html" import render_form %}
-    <h1>Edit Blog: </h1>
+    <h1>Edit Project: <em>{{ original_project }}</em></h1>
     <br>
     {{ render_form(form) }}
-    {{ ckeditor.load() }}
-    {{ ckeditor.config(name="content") }}
 {% endblock %}
