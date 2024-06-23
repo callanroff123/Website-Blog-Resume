@@ -15,8 +15,6 @@
         </div>
         <div class="row">
             <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
-                <hr>
-                <br>
                 <div class="articles-list">
                     {% if n_blogs == 0 %}
                         <p>No blogs to display currently.</p>
@@ -41,7 +39,7 @@
                 <br>
                 <hr>
                 <br>
-                <a href=" {{ url_for('add_blog') }} " class="btn btn-warning">Add Blog Post</a>
+                <a href=" {{ url_for('add_blog') }} " class="btn btn-success">Add Blog Post</a>
             </div>
         </div>
     </div>

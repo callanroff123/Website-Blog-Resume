@@ -9,10 +9,18 @@
     <!-- Intro/leading image -->
     <div class="col no-gap">
         <div class="row">
-            <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark d-flex flex-column justify-content-center align-items-center text-center">
-                <h1 class="display-4 font-italic">Gallery</h1>
+            <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+
+                <h1 class="display-4 font-italic text-center mb-4 gallery-title">Gallery</h1>
                 <hr>
                 <div class="gallery-container">
+                    {% if n_images > 0 %}
+                        {% for image in images %}
+                            <div class="gallery-image">
+                                <img src="{{ url_for('static', filename=image['image']) }}" alt="Gallery Image">
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                     <div class="gallery-image">
                         <img src="{{ url_for('static', filename='images/cal5.png') }}" alt="Gallery Image">
                     </div>
@@ -46,6 +54,13 @@
                     <div class="gallery-image">
                         <img src="{{ url_for('static', filename='images/cal1.png') }}" alt="Gallery Image">
                     </div>
+                </div>
+                <br>
+                <hr>
+                <br>
+                <div class="cruds">
+                    <a href=" {{ url_for('add_image') }} " class="btn btn-success">Add</a>
+                    <a href="#" class="btn btn-danger crud">Delete</a>
                 </div>
             </div>
         </div>

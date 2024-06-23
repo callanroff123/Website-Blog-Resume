@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SubmitField, validators, IntegerField, URLField
+from wtforms import StringField, SelectField, SubmitField, validators, IntegerField, URLField, FileField
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_ckeditor import CKEditor, CKEditorField
@@ -8,6 +8,9 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Float, desc
 import requests
 from datetime import datetime, date
+from werkzeug.utils import secure_filename
+import uuid
+import os
 
 
 class Base(DeclarativeBase):
@@ -20,8 +23,14 @@ bootstrap = Bootstrap5(app)
 ckeditor = CKEditor(app)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog.db"
 app.config["SECRET_KEY"] = "xxxx"
+app.config["UPLOAD_FOLDER"] = "static/images/uploads"
+app.config["ALLOWED_EXTENSIONS"] = {"png", "jpg", "jpeg", "gif"}
 db.init_app(app)
- 
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config["ALLOWED_EXTENSIONS"]
+
 
 class Blog(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key = True)
@@ -40,6 +49,12 @@ class Project(db.Model):
     github: Mapped[str] = mapped_column(String(1000))
     website: Mapped[str] = mapped_column(String(1000), nullable = True)
     status: Mapped[str] = mapped_column(String(1000))
+
+
+class Image(db.Model):
+    id: Mapped[int] = mapped_column(Integer, primary_key = True)
+    title: Mapped[str] = mapped_column(String(500), nullable = True)
+    image: Mapped[str] = mapped_column(String(500), unique = True, nullable = False)
 
 
 with app.app_context():
@@ -104,6 +119,12 @@ class EditProjectForm(FlaskForm):
     submit = SubmitField(label = "Edit Project")
 
 
+class AddImageForm(FlaskForm):
+    title = StringField(label = "Image Title: ")
+    image = FileField(label = "Image: ")
+    submit = SubmitField(label = "Add Image")
+
+
 @app.route("/")
 def index():
     return(render_template(
@@ -122,12 +143,6 @@ def about():
 def resume():
     return(render_template(
         "resume.html"  
-    ))
-
-@app.route("/gallery")
-def gallery():
-    return(render_template(
-        "gallery.html"  
     ))
 
 
@@ -177,6 +192,28 @@ def projects():
         "projects.html",
         projects = projects,
         n_projects = n_projects
+    ))
+
+
+@app.route("/gallery")
+def gallery():
+    with app.app_context():
+        images = db.session.execute(
+            db.select(Image).order_by(desc(Image.id))
+        ).fetchall()
+        images = [
+            {
+                "id": row[0].id,
+                "image": row[0].image.split("static/")[1],
+                "title": row[0].title, 
+            } for row in images
+        ]
+        n_images = len(images)
+        print([image["image"] for image in images])
+    return(render_template(
+        "gallery.html",
+        images = images,
+        n_images = n_images
     ))
 
 
@@ -321,6 +358,29 @@ def add_project():
         return(redirect(url_for("projects")))
     return(render_template(
         "add_project.html",
+        form = form
+    ))
+
+
+@app.route("/gallery/add_image", methods = ["GET", "POST"])
+def add_image():
+    form = AddImageForm()
+    if form.validate_on_submit():
+        file = form.image.data
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            unique_filename = str(uuid.uuid4()) + "_" + filename
+            file_path = os.path.join(app.config["UPLOAD_FOLDER"], unique_filename)
+            file.save(file_path)
+            new_image = Image(
+                image = file_path,
+                title = form.title.data
+            )
+            db.session.add(new_image)
+            db.session.commit()
+            return(redirect(url_for("gallery")))
+    return(render_template(
+        "add_image.html",
         form = form
     ))
         
