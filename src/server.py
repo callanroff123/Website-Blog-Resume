@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SubmitField, validators, IntegerField, URLField, FileField
+from wtforms import StringField, SelectField, SubmitField, validators, IntegerField, URLField, FileField, EmailField
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_ckeditor import CKEditor, CKEditorField
@@ -11,6 +11,12 @@ from datetime import datetime, date
 from werkzeug.utils import secure_filename
 import uuid
 import os
+from dotenv import load_dotenv
+import smtplib
+from email.message import EmailMessage
+
+
+load_dotenv()
 
 
 class Base(DeclarativeBase):
@@ -21,8 +27,8 @@ db = SQLAlchemy(model_class = Base)
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
 ckeditor = CKEditor(app)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog.db"
-app.config["SECRET_KEY"] = "xxxx"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 app.config["UPLOAD_FOLDER"] = "static/images/uploads"
 app.config["ALLOWED_EXTENSIONS"] = {"png", "jpg", "jpeg", "gif"}
 db.init_app(app)
@@ -125,6 +131,16 @@ class AddImageForm(FlaskForm):
     submit = SubmitField(label = "Add Image")
 
 
+class ContactForm(FlaskForm):
+    name = StringField(
+        label = "Name: ",
+        validators = [validators.DataRequired(message = "Please Enter this Field.")]
+    )
+    email = EmailField(label = "Email: ")
+    message = StringField(label = "Message: ")
+    submit = SubmitField(label = "Send")
+
+
 @app.route("/")
 def index():
     return(render_template(
@@ -214,6 +230,32 @@ def gallery():
         "gallery.html",
         images = images,
         n_images = n_images
+    ))
+
+
+@app.route("/contact", methods = ["GET", "POST"])
+def contact():
+    form = ContactForm()
+    if form.validate_on_submit():
+        conn = smtplib.SMTP("smtp.gmail.com")
+        my_email = os.getenv("GMAIL_USER_EMAIL")
+        my_password = os.getenv("GMAIL_APP_PASSWORD")
+        message = EmailMessage()
+        message["From"] = my_email
+        message["To"] = my_email
+        message["subject"] = f"""{form.name.data} ({form.email.data}) has reached out from your website."""
+        message.set_content(form.message.data)
+        conn.starttls()
+        conn.login(
+            user = my_email,
+            password = my_password
+        )
+        conn.send_message(message)
+        conn.close()
+        return(redirect(url_for("contact")))
+    return(render_template(
+        "contact.html",
+        form = form
     ))
 
 

@@ -212,5 +212,37 @@ body {
     display: block;
 }
 
+.contact-info-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+.contact-info-block {
+    margin: 15px;
+}
+
+.contact-form {
+    min-width: 600px;
+}
+
+.contact-info {
+    position: relative;
+}
+
+.contact-info li {
+    list-style: none;
+    position: relative;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.contact-info li .icon {
+    display: inline-block;
+    width: 30px;
+    font-size: 20px;
+}
+
 
 
