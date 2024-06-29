@@ -14,6 +14,7 @@ import os
 from dotenv import load_dotenv
 import smtplib
 from email.message import EmailMessage
+import datetime
 
 
 load_dotenv()
@@ -137,7 +138,10 @@ class ContactForm(FlaskForm):
         validators = [validators.DataRequired(message = "Please Enter this Field.")]
     )
     email = EmailField(label = "Email: ")
-    message = StringField(label = "Message: ")
+    message = CKEditorField(
+        label = "Message: ",
+        validators = [validators.DataRequired(message = "Please Enter this Field.")]    
+    )
     submit = SubmitField(label = "Send")
 
 
@@ -174,6 +178,9 @@ def blogs():
                 "title": row[0].title, 
                 "sub_title": row[0].sub_title, 
                 "date": row[0].date,
+                "month": datetime.datetime.strptime(row[0].date, "%Y-%m-%d").strftime("%B"),
+                "day": datetime.datetime.strptime(row[0].date, "%Y-%m-%d").day,
+                "year": datetime.datetime.strptime(row[0].date, "%Y-%m-%d").year,
                 "editor": row[0].editor,
                 "content": row[0].content,
                 "img_url": row[0].img_url
@@ -271,6 +278,9 @@ def get_blog(blog_id):
                 "title": blog.title, 
                 "sub_title": blog.sub_title, 
                 "date": blog.date,
+                "month": datetime.datetime.strptime(blog.date, "%Y-%m-%d").strftime("%B"),
+                "day": datetime.datetime.strptime(blog.date, "%Y-%m-%d").day,
+                "year": datetime.datetime.strptime(blog.date, "%Y-%m-%d").year,
                 "editor": blog.editor,
                 "content": blog.content,
                 "img_url": blog.img_url
@@ -285,13 +295,13 @@ def get_blog(blog_id):
 def edit_blog():
     blog_id = request.args.get("blog_id")
     form = EditBlogForm()
-    if form.validate_on_submit():
-        with app.app_context():
-            blog =  db.session.execute(db.select(Blog).where(Blog.id==blog_id)).scalar()
+    with app.app_context():
+        blog =  db.session.execute(db.select(Blog).where(Blog.id==blog_id)).scalar()
+        if form.validate_on_submit():
             blog.content = form.content.data
             blog.img_url = form.img_url.data
             db.session.commit()
-        return(redirect(url_for("get_blog", blog_id=blog_id)))
+            return(redirect(url_for("get_blog", blog_id=blog_id)))
     return(render_template(
         "edit_blog.html",
         form = form,

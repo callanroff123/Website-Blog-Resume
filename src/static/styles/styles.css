@@ -220,7 +220,8 @@ body {
 }
 
 .contact-info-block {
-    margin: 15px;
+    margin-right: 40px;
+    margin-bottom: 40px;
 }
 
 .contact-form {
@@ -243,6 +244,42 @@ body {
     width: 30px;
     font-size: 20px;
 }
+
+.blog-title {
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.blog-subtitle em {
+    font-weight: 100;
+}
+
+.blog-subtitle {
+    margin-bottom: 25px;
+}
+
+h5 .article-editor {
+    font-size: 16pt;
+    font-weight: 300;
+}
+
+h5 .article-editor-image img {
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0 10px;
+    height: 30pt;
+    width: 30pt;
+}
+
+.editor-date {
+    margin-bottom: 30px;
+}
+
+.article-written-content {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
 
 
 
