@@ -95,6 +95,17 @@
                 });
             });
 
+            backdrop.addEventListener('click', function() {
+                var activeImage = document.querySelector('.gallery-image.centered');
+                if (activeImage) {
+                    activeImage.classList.remove('flip');
+                    activeImage.classList.add('flip-back');
+                    activeImage.classList.remove('centered');
+                    activeImage.classList.add('centered-back');
+                    backdrop.classList.remove('active');
+                }
+            });
+
             document.addEventListener('click', function() {
                 var activeImage = document.querySelector('.gallery-image.centered');
                 if (activeImage) {
