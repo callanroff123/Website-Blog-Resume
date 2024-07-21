@@ -58,10 +58,12 @@
                 <br>
                 <hr>
                 <br>
-                <div class="cruds">
-                    <a href=" {{ url_for('add_image') }} " class="btn btn-success">Add</a>
-                    <a href="#" class="btn btn-danger crud">Delete</a>
-                </div>
+                {% if is_authenticated == True %}
+                    <div class="cruds">
+                        <a href=" {{ url_for('add_image') }} " class="btn btn-success">Add</a>
+                        <a href="#" class="btn btn-danger crud">Delete</a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

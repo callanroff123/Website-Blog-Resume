@@ -245,6 +245,10 @@ body {
     font-size: 20px;
 }
 
+.message-field {
+    height: 300px;
+}
+
 .blog-title {
     font-weight: 600;
     margin-bottom: 25px;

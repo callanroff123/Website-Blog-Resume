@@ -38,7 +38,9 @@
                 <br>
                 <hr>
                 <br>
-                <a href=" {{ url_for('add_project') }} " class="btn btn-success">Add Project</a>
+                {% if is_authenticated == True %}
+                    <a href=" {{ url_for('add_project') }} " class="btn btn-success">Add Project</a>
+                {% endif %}
             </div>
         </div>
     </div>

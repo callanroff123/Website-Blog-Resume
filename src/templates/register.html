@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+{% from "bootstrap5/form.html" import render_form %}
+<div class="box">
+    <h1>Register</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <p class="flashes" style="color: red;">{{ messages[0] }}</p>
+        {% endif %}
+    {% endwith %}
+    {{ render_form(form) }}
+</div>
+{% endblock %}

@@ -39,7 +39,9 @@
                 <br>
                 <hr>
                 <br>
-                <a href=" {{ url_for('add_blog') }} " class="btn btn-success">Add Blog Post</a>
+                {% if is_authenticated == True %}
+                    <a href=" {{ url_for('add_blog') }} " class="btn btn-success">Add Blog Post</a>
+                {% endif %}
             </div>
         </div>
     </div>
