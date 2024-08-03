@@ -25,7 +25,7 @@
                         {% from "bootstrap5/form.html" import render_form %}
                         {{ render_form(form) }}
                         {{ ckeditor.load() }}
-                        {{ ckeditor.config(name="content") }}
+                        {{ ckeditor.config(name='message', custom_config="removePlugins: 'notification'") }}
                     </div>
                     <div class="contact-info-block">
                         <p class="lead my-3">You can reach me via below too:</p>
@@ -51,4 +51,9 @@
     </div>
 
 </div>
+<script>
+    CKEDITOR.editorConfig = function( config ) {
+        config.versionCheck = false;
+    };
+</script>
 {% endblock %}

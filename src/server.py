@@ -103,6 +103,13 @@ class BlogForm(FlaskForm):
 
 
 class EditBlogForm(FlaskForm):
+    title = StringField(
+        label = "Blog Title: ",
+        validators = [
+            validators.DataRequired(message = "Please Enter a Blog Title")
+        ]
+    )
+    sub_title = StringField(label = "Blog Sub-Title: ")
     content = CKEditorField(
         label = "Blog Content: ",
         validators = [
@@ -111,6 +118,10 @@ class EditBlogForm(FlaskForm):
     )
     img_url = URLField(label = "Blog Image: ")
     submit = SubmitField(label = "Edit Blog Post")
+    def __init__(self, original_blog = None, *args, **kwargs):
+        super(EditBlogForm, self).__init__(*args, **kwargs)
+        if original_blog:
+            self.title.render_kw = {"placeholder": original_blog}
 
 
 class ProjectForm(FlaskForm):
@@ -155,7 +166,8 @@ class ContactForm(FlaskForm):
     email = EmailField(label = "Email: ")
     message = CKEditorField(
         label = "Message: ",
-        validators = [validators.DataRequired(message = "Please Enter this Field.")]    
+        validators = [validators.DataRequired(message = "Please Enter this Field.")],
+            
     )
     submit = SubmitField(label = "Send")
 
@@ -331,10 +343,13 @@ def get_blog(blog_id):
 @login_required
 def edit_blog():
     blog_id = request.args.get("blog_id")
-    form = EditBlogForm()
+    blog_title = request.args.get("blog_title")
+    form = EditBlogForm(original_blog = blog_title)
     with app.app_context():
         blog =  db.session.execute(db.select(Blog).where(Blog.id==blog_id)).scalar()
         if form.validate_on_submit():
+            blog.title = form.title.data
+            blog.sub_title = form.sub_title.data
             blog.content = form.content.data
             blog.img_url = form.img_url.data
             db.session.commit()
@@ -487,6 +502,7 @@ def add_image():
 
 
 # Redundant after intial registration
+'''
 @app.route("/register", methods = ["GET", "POST"])
 def register():
     form = RegisterForm()
@@ -518,6 +534,7 @@ def register():
             form = form,
             is_authenticated = current_user.is_authenticated
         ))
+'''
 
 
 @app.route("/login", methods = ["GET", "POST"])
