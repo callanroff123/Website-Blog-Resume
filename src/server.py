@@ -341,11 +341,15 @@ def get_blog(blog_id):
 @app.route("/blogs/edit", methods = ["GET", "POST"])
 @login_required
 def edit_blog():
-    blog_id = request.args.get("blog_id")
-    blog_title = request.args.get("blog_title")
-    form = EditBlogForm(original_blog = blog_title)
     with app.app_context():
+        blog_id = request.args.get("blog_id")
         blog =  db.session.execute(db.select(Blog).where(Blog.id==blog_id)).scalar()
+        form = EditBlogForm(
+            title = blog.title,
+            sub_title=blog.sub_title,
+            content=blog.content,
+            img_url=blog.img_url
+        )
         if form.validate_on_submit():
             blog.title = form.title.data
             blog.sub_title = form.sub_title.data
