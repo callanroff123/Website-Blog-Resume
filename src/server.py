@@ -16,7 +16,6 @@ import os
 from dotenv import load_dotenv
 import smtplib
 from email.message import EmailMessage
-import datetime
 
 
 load_dotenv()
@@ -221,9 +220,9 @@ def blogs():
                 "title": row[0].title, 
                 "sub_title": row[0].sub_title, 
                 "date": row[0].date,
-                "month": datetime.datetime.strptime(row[0].date, "%Y-%m-%d").strftime("%B"),
-                "day": datetime.datetime.strptime(row[0].date, "%Y-%m-%d").day,
-                "year": datetime.datetime.strptime(row[0].date, "%Y-%m-%d").year,
+                "month": datetime.strptime(row[0].date, "%Y-%m-%d").strftime("%B"),
+                "day": datetime.strptime(row[0].date, "%Y-%m-%d").day,
+                "year": datetime.strptime(row[0].date, "%Y-%m-%d").year,
                 "editor": row[0].editor,
                 "content": row[0].content,
                 "img_url": row[0].img_url
@@ -325,9 +324,9 @@ def get_blog(blog_id):
                 "title": blog.title, 
                 "sub_title": blog.sub_title, 
                 "date": blog.date,
-                "month": datetime.datetime.strptime(blog.date, "%Y-%m-%d").strftime("%B"),
-                "day": datetime.datetime.strptime(blog.date, "%Y-%m-%d").day,
-                "year": datetime.datetime.strptime(blog.date, "%Y-%m-%d").year,
+                "month": datetime.strptime(blog.date, "%Y-%m-%d").strftime("%B"),
+                "day": datetime.strptime(blog.date, "%Y-%m-%d").day,
+                "year": datetime.strptime(blog.date, "%Y-%m-%d").year,
                 "editor": blog.editor,
                 "content": blog.content,
                 "img_url": blog.img_url
