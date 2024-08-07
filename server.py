@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, flash, get_flashed_messages
+from flask import Flask, render_template, url_for, request, redirect, flash, get_flashed_messages, send_from_directory
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SubmitField, validators, IntegerField, URLField, FileField, EmailField, PasswordField
 from flask_bootstrap import Bootstrap5
@@ -33,6 +33,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 app.config["UPLOAD_FOLDER"] = "static/images/uploads"
 app.config["ALLOWED_EXTENSIONS"] = {"png", "jpg", "jpeg", "gif"}
+app.config['CKEDITOR_PKG_TYPE'] = 'full'
 db.init_app(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
