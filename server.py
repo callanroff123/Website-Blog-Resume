@@ -1,6 +1,6 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, flash, get_flashed_messages, send_from_directory
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SubmitField, validators, IntegerField, URLField, FileField, EmailField
+from wtforms import StringField, SelectField, SubmitField, validators, IntegerField, URLField, FileField, EmailField, PasswordField
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_ckeditor import CKEditor, CKEditorField
@@ -9,6 +9,8 @@ from sqlalchemy import Integer, String, Float, desc
 import requests
 from datetime import datetime, date
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import LoginManager, login_user, UserMixin, login_required, current_user, logout_user
 import uuid
 import os
 from dotenv import load_dotenv
@@ -31,7 +33,10 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 app.config["UPLOAD_FOLDER"] = "static/images/uploads"
 app.config["ALLOWED_EXTENSIONS"] = {"png", "jpg", "jpeg", "gif"}
+app.config['CKEDITOR_PKG_TYPE'] = 'full'
 db.init_app(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 
 def allowed_file(filename):
@@ -63,6 +68,17 @@ class Image(db.Model):
     image: Mapped[str] = mapped_column(String(500), unique = True, nullable = False)
 
 
+class User(UserMixin, db.Model):
+    id: Mapped[int] = mapped_column(Integer, primary_key = True)
+    email: Mapped[str] = mapped_column(String(100), unique = True)
+    password: Mapped[str] = mapped_column(String(100))
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return(db.get_or_404(User, user_id))
+
+
 with app.app_context():
     db.create_all()
 
@@ -87,6 +103,13 @@ class BlogForm(FlaskForm):
 
 
 class EditBlogForm(FlaskForm):
+    title = StringField(
+        label = "Blog Title: ",
+        validators = [
+            validators.DataRequired(message = "Please Enter a Blog Title")
+        ]
+    )
+    sub_title = StringField(label = "Blog Sub-Title: ")
     content = CKEditorField(
         label = "Blog Content: ",
         validators = [
@@ -95,6 +118,10 @@ class EditBlogForm(FlaskForm):
     )
     img_url = URLField(label = "Blog Image: ")
     submit = SubmitField(label = "Edit Blog Post")
+    def __init__(self, original_blog = None, *args, **kwargs):
+        super(EditBlogForm, self).__init__(*args, **kwargs)
+        if original_blog:
+            self.title.render_kw = {"placeholder": original_blog}
 
 
 class ProjectForm(FlaskForm):
@@ -137,28 +164,48 @@ class ContactForm(FlaskForm):
         validators = [validators.DataRequired(message = "Please Enter this Field.")]
     )
     email = EmailField(label = "Email: ")
-    message = StringField(label = "Message: ")
+    message = CKEditorField(
+        label = "Message: ",
+        validators = [validators.DataRequired(message = "Please Enter this Field.")],
+            
+    )
     submit = SubmitField(label = "Send")
+
+
+class LoginForm(FlaskForm):
+    email = EmailField(label = "Email: ")
+    password = PasswordField(label = "Password: ")
+    submit = SubmitField(label = "Login")
+
+
+class RegisterForm(FlaskForm):
+    email = EmailField(label = "Email: ")
+    password = PasswordField(label = "Password: ")
+    submit = SubmitField(label = "Register")
 
 
 @app.route("/")
 def index():
+    print(current_user.is_authenticated)
     return(render_template(
-        "index.html"  
+        "index.html",
+        is_authenticated = current_user.is_authenticated
     ))
 
 
 @app.route("/about")
 def about():
     return(render_template(
-        "about.html"  
+        "about.html",
+        is_authenticated = current_user.is_authenticated  
     ))
 
 
 @app.route("/resume")
 def resume():
     return(render_template(
-        "resume.html"  
+        "resume.html",
+        is_authenticated = current_user.is_authenticated  
     ))
 
 
@@ -174,6 +221,9 @@ def blogs():
                 "title": row[0].title, 
                 "sub_title": row[0].sub_title, 
                 "date": row[0].date,
+                "month": datetime.strptime(row[0].date, "%Y-%m-%d").strftime("%B"),
+                "day": datetime.strptime(row[0].date, "%Y-%m-%d").day,
+                "year": datetime.strptime(row[0].date, "%Y-%m-%d").year,
                 "editor": row[0].editor,
                 "content": row[0].content,
                 "img_url": row[0].img_url
@@ -183,7 +233,8 @@ def blogs():
     return(render_template(
         "blogs.html",
         blogs = blogs,
-        n_blogs = n_blogs
+        n_blogs = n_blogs,
+        is_authenticated = current_user.is_authenticated
     ))
 
 
@@ -207,7 +258,8 @@ def projects():
     return(render_template(
         "projects.html",
         projects = projects,
-        n_projects = n_projects
+        n_projects = n_projects,
+        is_authenticated = current_user.is_authenticated
     ))
 
 
@@ -229,7 +281,8 @@ def gallery():
     return(render_template(
         "gallery.html",
         images = images,
-        n_images = n_images
+        n_images = n_images,
+        is_authenticated = current_user.is_authenticated
     ))
 
 
@@ -255,7 +308,8 @@ def contact():
         return(redirect(url_for("contact")))
     return(render_template(
         "contact.html",
-        form = form
+        form = form,
+        is_authenticated = current_user.is_authenticated
     ))
 
 
@@ -271,35 +325,49 @@ def get_blog(blog_id):
                 "title": blog.title, 
                 "sub_title": blog.sub_title, 
                 "date": blog.date,
+                "month": datetime.strptime(blog.date, "%Y-%m-%d").strftime("%B"),
+                "day": datetime.strptime(blog.date, "%Y-%m-%d").day,
+                "year": datetime.strptime(blog.date, "%Y-%m-%d").year,
                 "editor": blog.editor,
                 "content": blog.content,
                 "img_url": blog.img_url
             }
     return(render_template(
         "get_blog.html",
-        blog = blog
+        blog = blog,
+        is_authenticated = current_user.is_authenticated
     ))
 
 
 @app.route("/blogs/edit", methods = ["GET", "POST"])
+@login_required
 def edit_blog():
-    blog_id = request.args.get("blog_id")
-    form = EditBlogForm()
-    if form.validate_on_submit():
-        with app.app_context():
-            blog =  db.session.execute(db.select(Blog).where(Blog.id==blog_id)).scalar()
+    with app.app_context():
+        blog_id = request.args.get("blog_id")
+        blog =  db.session.execute(db.select(Blog).where(Blog.id==blog_id)).scalar()
+        form = EditBlogForm(
+            title = blog.title,
+            sub_title=blog.sub_title,
+            content=blog.content,
+            img_url=blog.img_url
+        )
+        if form.validate_on_submit():
+            blog.title = form.title.data
+            blog.sub_title = form.sub_title.data
             blog.content = form.content.data
             blog.img_url = form.img_url.data
             db.session.commit()
-        return(redirect(url_for("get_blog", blog_id=blog_id)))
+            return(redirect(url_for("get_blog", blog_id=blog_id)))
     return(render_template(
         "edit_blog.html",
         form = form,
-        blog_id = blog_id
+        blog_id = blog_id,
+        is_authenticated = current_user.is_authenticated
     ))
 
 
 @app.route("/blogs/delete", methods = ["GET", "POST"])
+@login_required
 def delete_blog():
     blog_id = request.args.get("blog_id")
     with app.app_context():
@@ -310,6 +378,7 @@ def delete_blog():
 
 
 @app.route("/add_blog", methods = ["GET", "POST"])
+@login_required
 def add_blog():
     form = BlogForm()
     if form.validate_on_submit():
@@ -326,7 +395,8 @@ def add_blog():
         return(redirect(url_for("blogs")))
     return(render_template(
         "add_blog.html",
-        form = form
+        form = form,
+        is_authenticated = current_user.is_authenticated
     ))
 
 
@@ -347,11 +417,13 @@ def get_project(project_id):
             }
     return(render_template(
         "get_project.html",
-        project = project
+        project = project,
+        is_authenticated = current_user.is_authenticated
     ))
 
 
 @app.route("/projects/edit", methods = ["GET", "POST"])
+@login_required
 def edit_project():
     project_id = request.args.get("project_id")
     form = EditProjectForm()
@@ -370,11 +442,13 @@ def edit_project():
         "edit_project.html",
         form = form,
         project_id = project_id,
-        original_project = original_project
+        original_project = original_project,
+        is_authenticated = current_user.is_authenticated
     ))
 
 
 @app.route("/projects/delete", methods = ["GET", "POST"])
+@login_required
 def delete_project():
     project_id = request.args.get("project_id")
     with app.app_context():
@@ -385,6 +459,7 @@ def delete_project():
 
 
 @app.route("/add_project", methods = ["GET", "POST"])
+@login_required
 def add_project():
     form = ProjectForm()
     if form.validate_on_submit():
@@ -400,11 +475,13 @@ def add_project():
         return(redirect(url_for("projects")))
     return(render_template(
         "add_project.html",
-        form = form
+        form = form,
+        is_authenticated = current_user.is_authenticated
     ))
 
 
 @app.route("/gallery/add_image", methods = ["GET", "POST"])
+@login_required
 def add_image():
     form = AddImageForm()
     if form.validate_on_submit():
@@ -423,11 +500,78 @@ def add_image():
             return(redirect(url_for("gallery")))
     return(render_template(
         "add_image.html",
-        form = form
+        form = form,
+        is_authenticated = current_user.is_authenticated
     ))
-        
+
+
+# Redundant after intial registration
+'''
+@app.route("/register", methods = ["GET", "POST"])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        hash_password = generate_password_hash(
+            form.password.data,
+            method = "pbkdf2:sha256",
+            salt_length = 8
+        )
+        with app.app_context():
+            user = db.session.execute(
+                db.select(User).where(User.email == email)
+            ).scalar()
+            if user:
+                flash("Email alread exists in database")
+            else:
+                new_user = User(
+                    email = email,
+                    password = hash_password
+                )
+                db.session.add(new_user)
+                db.session.commit()
+                login_user(new_user)
+                return(redirect(url_for("index")))
+    else:
+        return(render_template(
+            "register.html",
+            form = form,
+            is_authenticated = current_user.is_authenticated
+        ))
+'''
+
+
+@app.route("/login", methods = ["GET", "POST"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        with app.app_context():
+            user = db.session.execute(
+                db.select(User).where(User.email == email)
+            ).scalar()
+            if user:
+                if check_password_hash(user.password, password = form.password.data):
+                    login_user(user)
+                    return(redirect(url_for('index')))
+                else:
+                    flash("Invalid credentials")
+            else:
+                flash("Invalid credentials")
+    return(render_template(
+        "login.html",
+        form = form,
+        is_authenticated = current_user.is_authenticated
+    ))
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return(redirect(url_for("index")))
+
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(debug = False)
 
 

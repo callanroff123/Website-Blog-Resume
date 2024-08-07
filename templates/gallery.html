@@ -21,47 +21,17 @@
                             </div>
                         {% endfor %}
                     {% endif %}
-                    <div class="gallery-image">
-                        <img src="{{ url_for('static', filename='images/cal5.png') }}" alt="Gallery Image">
-                    </div>
-                    <div class="gallery-image">
-                        <img src="{{ url_for('static', filename='images/insta1.png') }}" alt="Gallery Image">
-                    </div>
-                    <div class="gallery-image">
-                        <img src="{{ url_for('static', filename='images/insta2.png') }}" alt="Gallery Image">
-                    </div>
-                    <div class="gallery-image">
-                        <img src="{{ url_for('static', filename='images/insta3.png') }}" alt="Gallery Image">
-                    </div>
-                    <div class="gallery-image">
-                        <img src="{{ url_for('static', filename='images/insta4.png') }}" alt="Gallery Image">
-                    </div>
-                    <div class="gallery-image">
-                        <img src="{{ url_for('static', filename='images/cal8.png') }}" alt="Gallery Image">
-                    </div>
-                    <div class="gallery-image">
-                        <img src="{{ url_for('static', filename='images/cal7.png') }}" alt="Gallery Image">
-                    </div>
-                    <div class="gallery-image">
-                        <img src="{{ url_for('static', filename='images/cal4.png') }}" alt="Gallery Image">
-                    </div>
-                    <div class="gallery-image">
-                        <img src="{{ url_for('static', filename='images/cal3.png') }}" alt="Gallery Image">
-                    </div>
-                    <div class="gallery-image">
-                        <img src="{{ url_for('static', filename='images/cal2.png') }}" alt="Gallery Image">
-                    </div>
-                    <div class="gallery-image">
-                        <img src="{{ url_for('static', filename='images/cal1.png') }}" alt="Gallery Image">
-                    </div>
+                    
                 </div>
                 <br>
                 <hr>
                 <br>
-                <div class="cruds">
-                    <a href=" {{ url_for('add_image') }} " class="btn btn-success">Add</a>
-                    <a href="#" class="btn btn-danger crud">Delete</a>
-                </div>
+                {% if is_authenticated == True %}
+                    <div class="cruds">
+                        <a href=" {{ url_for('add_image') }} " class="btn btn-success">Add</a>
+                        <a href="#" class="btn btn-danger crud">Delete</a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

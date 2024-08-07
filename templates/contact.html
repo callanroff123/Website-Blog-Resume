@@ -17,11 +17,18 @@
         </div>
         <div class="row">
             <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+                <h1 class="display-4 font-italic">Contact Me</h1>
+                <hr>
                 <div class="contact-info-container">
-                    <div class="contact-info-block">
-                        <h1 class="display-4 font-italic">Contact Me</h1>
-                        <hr>
+                    <div class="contact-info-block contact-form">
                         <p class="lead my-3">Reach out, I would love to chat!</p>
+                        {% from "bootstrap5/form.html" import render_form %}
+                        {{ render_form(form) }}
+                        {{ ckeditor.load() }}
+                        {{ ckeditor.config(name='message', custom_config="removePlugins: 'notification'") }}
+                    </div>
+                    <div class="contact-info-block">
+                        <p class="lead my-3">You can reach me via below too:</p>
                         <ul class="contact-info">
                             <li>
                                 <span class="icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
@@ -36,10 +43,7 @@
                                 <a class="text" style="text-decoration: none;" href="https://www.linkedin.com/in/callan-roff-4a8bb4184/">https://www.linkedin.com/in/callan-roff-4a8bb4184/</a>
                             </li>
                         </ul>
-                    </div>
-                    <div class="contact-info-block contact-form">
-                        {% from "bootstrap5/form.html" import render_form %}
-                        {{ render_form(form) }}
+                        
                     </div>
                 </div>
             </div>
@@ -47,4 +51,9 @@
     </div>
 
 </div>
+<script>
+    CKEDITOR.editorConfig = function( config ) {
+        config.versionCheck = false;
+    };
+</script>
 {% endblock %}

@@ -36,6 +36,11 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}">Contact</a>
                         </li>
+                        {% if is_authenticated == True %}
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{{ url_for('logout') }}" style="color: red;">Logout</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
