@@ -22,7 +22,7 @@
                             <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('resume') }}">Résumé</a>
+                            <a class="nav-link active" aria-current="page" href="{{ url_for('resume') }}" target="_blank">Résumé</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{{ url_for('blogs') }}">Blogs</a>
@@ -63,25 +63,18 @@
                     <li class="nav-item mb-2"><a href="{{ url_for('contact') }}" class="nav-link p-0 text-body-secondary">Contact</a></li>
                 </ul>
             </div>
-            <div class="col mb-3">
-                <h5>Legal</h5>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Priacy Policy</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Cookies Policy</a></li>
-                </ul>
-            </div>
             <div class="col d-flex">
-                <a href="#" class="btn">
-                    <img src="{{ url_for('static', filename='images/insta.png') }}" height="80" width="80" class="socials-logos">
-                </a>
-                <a href="#" class="btn">
+                <a href="https://www.facebook.com/calvin.roff/" target="_blank" class="btn">
                     <img src="{{ url_for('static', filename='images/fb.png') }}" height="80" width="80" class="socials-logos">
                 </a>
-                <a href="https://www.linkedin.com/in/callan-roff-4a8bb4184/" class="btn">
+                <a href="https://www.linkedin.com/in/callan-roff-4a8bb4184/" target="_blank" class="btn">
                     <img src="{{ url_for('static', filename='images/linkedin.png') }}" height="80" width="80" class="socials-logos">
                 </a>
-                <a href="https://github.com/callanroff123" class="btn">
+                <a href="https://github.com/callanroff123" target="_blank" class="btn">
                     <img src="{{ url_for('static', filename='images/github.png') }}" height="80" width="80" class="socials-logos">
+                </a>
+                <a href="#" class="btn">
+                    <img src="{{ url_for('static', filename='images/insta.png') }}" height="80" width="80" class="socials-logos">
                 </a>
             </div>
         </footer>
