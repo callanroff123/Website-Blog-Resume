@@ -25,11 +25,12 @@ class Base(DeclarativeBase):
     pass
 
 
+basedir = os.path.abspath(os.path.dirname(__file__))
 db = SQLAlchemy(model_class = Base)
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
 ckeditor = CKEditor(app)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('"SQLALCHEMY_DATABASE_URI"', '').replace('postgres://', 'postgresql://') or 'sqlite:///' + os.path.join(basedir, 'blog.db')
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 app.config["UPLOAD_FOLDER"] = "static/images/uploads"
 app.config["ALLOWED_EXTENSIONS"] = {"png", "jpg", "jpeg", "gif"}
