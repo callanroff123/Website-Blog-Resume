@@ -47,7 +47,7 @@ def export_csv_to_postgres():
     for t, cols in out_dict.items():
         subprocess.run([
             "psql", os.environ.get("DATABASE_URL"),
-            "-c", f"\\copy {t}({cols}) FROM '{csv_file}' DELIMITER ',' CSV HEADER"
+            "-c", "\\copy " + f'''"{t}"''' + f"({cols}) FROM '{csv_file}' DELIMITER ',' CSV HEADER"
         ])
 
 
