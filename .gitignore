@@ -65,6 +65,8 @@ db.sqlite3-journal
 instance/
 .webassets-cache
 *.load
+sqlite_csv_copies/
+csv_to_postgres.bash
 
 # Scrapy stuff:
 .scrapy

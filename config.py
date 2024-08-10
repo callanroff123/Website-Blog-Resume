@@ -10,4 +10,4 @@ class Config:
     GMAIL_PASSWORD = os.environ.get("GMAIL_USER_PASSWORD")
     GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD") 
     FLASK_APP = os.environ.get("FLASK_APP")
-    SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', '').replace('postgres://', 'postgresql://') or 'sqlite:///' + os.path.join(base_dir, 'blog.db')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', '').replace('postgres://', 'postgresql://') or 'sqlite:///' + os.path.join(base_dir, 'blog.db')
