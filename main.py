@@ -93,6 +93,11 @@ with app.app_context():
     db.create_all()
 
 
+@app.route("/sitemap.xml")
+def sitemap():
+    return(send_from_directory(app.root_path, "sitemap.xml"))
+
+
 @app.route("/")
 def index():
     print(current_user.is_authenticated)
