@@ -43,6 +43,8 @@ app.config["SECRET_KEY"] = Config.SECRET_KEY
 app.config["UPLOAD_FOLDER"] = "static/images/uploads"
 app.config["ALLOWED_EXTENSIONS"] = {"png", "jpg", "jpeg", "gif"}
 app.config['CKEDITOR_PKG_TYPE'] = 'full'
+app.config['RECAPTCHA_PUBLIC_KEY'] = Config.RECAPTCHA_SITE_KEY
+app.config['RECAPTCHA_PRIVATE_KEY'] = Config.RECAPTCHA_SECRET_KEY
 db.init_app(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
