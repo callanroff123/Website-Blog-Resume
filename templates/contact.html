@@ -24,8 +24,6 @@
                         <p class="lead my-3">Reach out, I would love to chat!</p>
                         {% from "bootstrap5/form.html" import render_form %}
                         {{ render_form(form) }}
-                        {{ ckeditor.load() }}
-                        {{ ckeditor.config(name='message', custom_config="removePlugins: 'notification'") }}
                     </div>
                     <div class="contact-info-block">
                         <p class="lead my-3">You can reach me via below too:</p>

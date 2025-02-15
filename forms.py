@@ -1,7 +1,8 @@
 # Import libraries to build and automate web forms
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SubmitField, validators, IntegerField, URLField, FileField, EmailField, PasswordField
+from wtforms import StringField, SelectField, SubmitField, validators, IntegerField, URLField, FileField, EmailField, PasswordField, TextAreaField
 from flask_ckeditor import CKEditor, CKEditorField
+from flask_wtf.recaptcha import RecaptchaField
 
 
 class BlogForm(FlaskForm):
@@ -85,11 +86,15 @@ class ContactForm(FlaskForm):
         validators = [validators.DataRequired(message = "Please Enter this Field.")]
     )
     email = EmailField(label = "Email: ")
-    message = CKEditorField(
+    message = TextAreaField(
         label = "Message: ",
         validators = [validators.DataRequired(message = "Please Enter this Field.")],
-            
+        render_kw = {
+            "rows": 5,
+            "style": "min-width: 400px;"
+        }
     )
+    recaptcha = RecaptchaField()
     submit = SubmitField(label = "Send")
 
 
