@@ -225,7 +225,8 @@ def contact():
     return(render_template(
         "contact.html",
         form = form,
-        is_authenticated = current_user.is_authenticated
+        is_authenticated = current_user.is_authenticated,
+        recaptcha_site_key = os.getenv("RECAPTCHA_SITE_KEY")
     ))
 
 
