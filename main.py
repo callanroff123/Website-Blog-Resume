@@ -32,6 +32,7 @@ class Base(DeclarativeBase):
     pass
 
 
+# Configurations
 basedir = os.path.abspath(os.path.dirname(__file__))
 db = SQLAlchemy(model_class = Base)
 app = Flask(__name__)
