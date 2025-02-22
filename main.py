@@ -22,7 +22,7 @@ from logging.handlers import RotatingFileHandler
 
 # Import modules
 from config import Config
-from forms import BlogForm, EditBlogForm, ProjectForm, EditProjectForm, AddImageForm, ContactForm, LoginForm, RegisterForm
+from forms import BlogForm, EditBlogForm, ProjectForm, EditProjectForm, AddImageForm, ContactForm, LoginForm, RegisterForm, EditAboutForm
 
 
 load_dotenv()
@@ -87,6 +87,11 @@ class User(UserMixin, db.Model):
     password: Mapped[str] = mapped_column(String(100))
 
 
+class About(db.Model):
+    id: Mapped[int] = mapped_column(Integer, primary_key = True)
+    about_me: Mapped[str] = mapped_column(String(10000), unique = True)
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return(db.get_or_404(User, user_id))
@@ -112,9 +117,40 @@ def index():
 
 @app.route("/about")
 def about():
+    about =  db.session.execute(db.select(About)).scalars().first()
+    print(about)
     return(render_template(
         "about.html",
-        is_authenticated = current_user.is_authenticated  
+        is_authenticated = current_user.is_authenticated,
+        about = about
+    ))
+
+
+@app.route("/about/edit", methods = ["GET", "POST"])
+@login_required
+def edit_about():
+    with app.app_context():
+        about =  db.session.execute(db.select(About)).scalars().first()
+        print(about)
+        if about and about is not None:
+            form = EditAboutForm(
+                about_me = about.about_me 
+            )
+        else:
+            default_about = About(
+                about_me = ""
+            )
+            db.session.add(default_about)
+            db.session.commit()
+            form = EditAboutForm()
+        if form.validate_on_submit():
+            about.about_me = form.about_me.data
+            db.session.commit()
+            return(redirect(url_for("about")))
+    return(render_template(
+        "edit_about.html",
+        form = form,
+        is_authenticated = current_user.is_authenticated
     ))
 
 
@@ -344,10 +380,16 @@ def get_project(project_id):
 @login_required
 def edit_project():
     project_id = request.args.get("project_id")
-    form = EditProjectForm()
     with app.app_context():
         project =  db.session.execute(db.select(Project).where(Project.id==project_id)).scalar()
         original_project = project.title
+        form = EditProjectForm(
+            title = project.title,
+            description = project.description,
+            github = project.github,
+            website = project.website,
+            status = project.status
+        )
         if form.validate_on_submit():
             project.title = form.title.data
             project.description = form.description.data
