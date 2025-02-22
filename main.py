@@ -38,8 +38,10 @@ db = SQLAlchemy(model_class = Base)
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
 ckeditor = CKEditor(app)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog.db"
-#app.config["SQLALCHEMY_DATABASE_URI"] = Config.SQLALCHEMY_DATABASE_URI
+if Config.ENV == "dev":
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog.db"
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = Config.SQLALCHEMY_DATABASE_URI
 app.config["SECRET_KEY"] = Config.SECRET_KEY
 app.config["UPLOAD_FOLDER"] = "static/images/uploads"
 app.config["ALLOWED_EXTENSIONS"] = {"png", "jpg", "jpeg", "gif"}
