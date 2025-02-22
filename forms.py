@@ -108,3 +108,13 @@ class RegisterForm(FlaskForm):
     email = EmailField(label = "Email: ")
     password = PasswordField(label = "Password: ")
     submit = SubmitField(label = "Register")
+
+
+class EditAboutForm(FlaskForm):
+    about_me = CKEditorField(
+        label = "About Me: ",
+        validators = [
+            validators.DataRequired(message = "Please Enter this Field.")
+        ]
+    )
+    submit = SubmitField(label = "Update")
