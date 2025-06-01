@@ -159,7 +159,7 @@ def edit_about():
 @app.route("/resume")
 def resume():
     return(render_template(
-        "resume.html",
+        "resume_v2.html",
         is_authenticated = current_user.is_authenticated  
     ))
 
@@ -534,6 +534,6 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(debug = False)
+    app.run(debug = True)
 
 
