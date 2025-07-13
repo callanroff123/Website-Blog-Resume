@@ -64,7 +64,7 @@ class Blog(db.Model):
     sub_title: Mapped[str] = mapped_column(String(250))
     date: Mapped[int] = mapped_column(String(250), unique = False)
     editor: Mapped[str] = mapped_column(String(250), unique = False)
-    content: Mapped[str] = mapped_column(String(10000))
+    content: Mapped[str] = mapped_column(String(100000))
     img_url: Mapped[str] = mapped_column(String(1000))
 
 
