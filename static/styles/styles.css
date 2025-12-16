@@ -66,6 +66,13 @@ body {
     justify-content: space-between;
 }
 
+.contact-image {
+    max-width: 70%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
 .article {
     display: flex;
     flex-direction: column;
