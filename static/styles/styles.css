@@ -291,6 +291,59 @@ h5 .article-editor-image img {
     margin-bottom: 40px;
 }
 
+.chat-toggle {
+  
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+}
 
+.chat-widget {
+  position: fixed;
+  right: 24px;
+  bottom: 90px;
+  width: 420px;
+  height: 620px;
+  z-index: 9999;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+  background: white;
+}
+
+.chat-header {
+  height: 48px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.chat-header button {
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.chat-frame {
+  width: 100%;
+  height: calc(100% - 48px);
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .chat-widget {
+    right: 12px;
+    left: 12px;
+    bottom: 80px;
+    width: auto;
+    height: 75vh;
+  }
+}
 
 
